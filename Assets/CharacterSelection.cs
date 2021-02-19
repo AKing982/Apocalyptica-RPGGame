@@ -55,9 +55,9 @@ public class CharacterSelection : MonoBehaviour
 
         index++;
 
-        if (index < 0)
+        if (index == characterlist.Length)
         {
-            index = characterlist.Length - 1;
+            index = 0;
         }
 
         // Toggle on the current model
