@@ -31,8 +31,6 @@ public class CharacterSelection : MonoBehaviour
             characterlist[0].SetActive(true);
         }
 
-    
-
     }
 
     public void ToggleLeft()
@@ -68,7 +66,7 @@ public class CharacterSelection : MonoBehaviour
 
     public void SelectButton()
     {
-
+        SceneManager.LoadScene("CharacterSelection");
     }
 
 
