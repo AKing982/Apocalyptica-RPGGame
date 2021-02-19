@@ -6,6 +6,7 @@ using UnityEngine.SceneManagement;
 public class CharacterSelection : MonoBehaviour
 {
     public GameObject[] characterlist;
+    public int index;
 
     private void Start()
     {
@@ -29,7 +30,42 @@ public class CharacterSelection : MonoBehaviour
         {
             characterlist[0].SetActive(true);
         }
+
+    
+
     }
+
+    public void ToggleLeft()
+    {
+        // Toggle off the current model
+        characterlist[index].SetActive(false);
+
+        index--;
+
+        if (index < 0)
+        {
+            index = characterlist.Length - 1;
+        }
+
+        // Toggle on the current model
+        characterlist[index].SetActive(true);
+    }
+
+    public void ToggleRight()
+    {
+        characterlist[index].SetActive(false);
+
+        index++;
+
+        if (index < 0)
+        {
+            index = characterlist.Length - 1;
+        }
+
+        // Toggle on the current model
+        characterlist[index].SetActive(true);
+    }
+
 
 
 
