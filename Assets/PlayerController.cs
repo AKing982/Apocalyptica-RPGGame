@@ -4,19 +4,20 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
-    public CharacterController controller;
+    //public CharacterController controller;
     public GameObject Player;
-    public float speed = 12f;
+    public float speed = 3f;
     public float gravity = -9.81f;
     private Animator playerAnim;
-    private float x_direction = Input.GetAxis("Horizontal");
-    private float z_direction = Input.GetAxis("Vertical");
+    Rigidbody playerRb;
+    public Camera cam;
     
     Vector3 velocity;
 
     private void Start()
     {
         playerAnim = GetComponent<Animator>();
+        playerRb = GetComponent<Rigidbody>();
     }
 
     // Update is called once per frame
@@ -31,11 +32,9 @@ public class PlayerController : MonoBehaviour
 
     void MouseMovement()
     {
-        Vector3 mouse_pos = new Vector3(Input.mousePosition.x, Input.mousePosition.z, 10);
-        Vector3 lookPos = Camera.main.ScreenToWorldPoint(mouse_pos);
-        lookPos = lookPos - transform.position;
-        float angle = Mathf.Atan2(lookPos.z, lookPos.x) * Mathf.Rad2Deg;
-        transform.rotation = Quaternion.AngleAxis(angle, Vector3.forward);
+        Vector3 mous_pos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+
+        transform.LookAt(mous_pos);
     }    
 
    void PlayerAnimations()
@@ -55,12 +54,38 @@ public class PlayerController : MonoBehaviour
 
     void PlayerMovement()
     {
-        Vector3 move = transform.right * x_direction + transform.forward * z_direction;
+        float x_direction = Input.GetAxis("Horizontal");
+        float z_direction = Input.GetAxis("Vertical");
 
-        controller.Move(move * speed * Time.deltaTime);
+        if (Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.UpArrow))
+        {
+            playerRb.AddForce(new Vector3(-2f, 0.0f, 0.0f), ForceMode.VelocityChange);
+        }
 
-        velocity.y += gravity * Time.deltaTime;
+        if(Input.GetKey(KeyCode.A))
+        {
+            playerRb.AddForce(new Vector3(0.0f, 0.0f, -2f), ForceMode.VelocityChange); 
+        }
 
-        controller.Move(velocity * Time.deltaTime);
-    }
+        if(Input.GetKey(KeyCode.D))
+        {
+            playerRb.AddForce(new Vector3(0.0f, 0.0f, 2f), ForceMode.VelocityChange);
+        }
+
+        if(Input.GetKey(KeyCode.S))
+        {
+            playerRb.AddForce(new Vector3(2f, 0.0f, 0.0f), ForceMode.VelocityChange);
+        }
+
+        if(Input.GetKey(KeyCode.LeftShift) && Input.GetKey(KeyCode.W))
+        {
+            playerRb.AddForce(new Vector3(-2f, 0.0f, 0.0f) * speed, ForceMode.VelocityChange);
+        }
+
+        Vector3 movement = new Vector3(x_direction, 0.0f, z_direction);
+
+        playerRb.AddForce(movement * speed * Time.deltaTime);
+
+   
+}
 }
