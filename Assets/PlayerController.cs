@@ -52,6 +52,7 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+   
     void PlayerMovement()
     {
         float x_direction = Input.GetAxis("Horizontal");
